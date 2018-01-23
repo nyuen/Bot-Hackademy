@@ -33,12 +33,13 @@ bot.beginDialogAction('reset', '/reset', { matches: /^reset/i });
 // Bots Dialogs
 //=========================================================
 
-var model = process.env.model || 'https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/0355ead1-2d08-4955-ab95-e263766e8392?subscription-key=YOURSUBSCRIPTIONKEY';
+var model = process.env.model || 'https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/0355ead1-2d08-4955-ab95-e263766e8392?subscription-key=827970b222a64931add4e0865380ffd0';
 var recognizer = new builder.LuisRecognizer(model);
 var intents = new builder.IntentDialog({ recognizers: [recognizer] });
 
 intents.matches('builtin.intent.places.find_place', [
     function (session, args, next) {
+        session.send("you triggered luis");
         var place = builder.EntityRecognizer.findEntity(args.entities, 'builtin.places.place_type');
 				var cuisine = builder.EntityRecognizer.findEntity(args.entities, 'builtin.places.cuisine');
 				var time = builder.EntityRecognizer.resolveTime(args.entities);
@@ -47,20 +48,20 @@ intents.matches('builtin.intent.places.find_place', [
 				{
 					if(!cuisine)
 					{
-						session.send("OK. Tu souhaites un restaurant. Une préférence ?");
+						session.send("OK. Tu souhaites un restaurant. Une prï¿½fï¿½rence ?");
 					}
 					else
 					{
-						session.send("OK. Tu souhaites un restaurant %s. Je gère !", cuisine.entity);
+						session.send("OK. Tu souhaites un restaurant %s. Je gï¿½re !", cuisine.entity);
 						if (time)
 						{
-								session.send('Réservation pour le %d/%d/%d', time.getMonth() + 1, time.getDate(), time.getFullYear());
+								session.send('Rï¿½servation pour le %d/%d/%d', time.getMonth() + 1, time.getDate(), time.getFullYear());
 						}
 					}	
 				}
 				else
 				{
-					  session.send("Désolé. Je ne réserve que les restaurants moi !");
+					  session.send("Dï¿½solï¿½. Je ne rï¿½serve que les restaurants moi !");
 				}
 				
 				session.endDialog();
